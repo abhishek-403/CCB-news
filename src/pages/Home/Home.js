@@ -1,53 +1,147 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef} from 'react'
 import HeadLine from '../../components/EachHeadline/HeadLine'
+import EachSlide from '../../components/EachSlide/EachSlide'
+import './home.scss'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import Spinner from '../../components/Spinner/Spinner'
+import Glider from 'react-glider'
+import 'glider-js/glider.min.css';
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchData, fetchMore } from '../../redux/slices/UtilsSlice'
+
+
 
 function Home() {
-    const [data, setData] = useState([])
-    const [search, setSearch] = useState('apple')
+    const search = useRef(null)
+
+    const dispatch = useDispatch();
+    const data = useSelector(s => s.utilsReducer.data)
+    const isLoading = useSelector(s => s.utilsReducer.isLoading)
 
 
-    async function fetchData() {
-        const apikey = 'c1d79d52fb78476d8a55a1f11b2d5363'
 
-
-        const response = await fetch(`https://newsapi.org/v2/everything?q=${search}}&from=2023-05-07&to=2023-05-07&
-        pageSize=20&sortBy=popularity&apiKey=${apikey}`)
-        const data = await response.json();
-
-        setData(data);
-
+    async function fetchMoreData() {
+        dispatch(fetchMore({
+            cat: data.cat,
+            page: data.page
+        }))
 
     }
     useEffect(() => {
-        fetchData()
+        console.log(data);
 
 
-    }, [search])
+    }, [data])
 
 
 
     return (
+
         <div className='home'>
-            <div className="container">
-                <div className="content">
-                    <div className="top">
-                        <input onChange={(e)=>setSearch(e.target.value)} type="text" />
+            {
+                isLoading ? <Spinner /> : <div className="container">
+                    <div className="content">
+
+                        <div className="top center">
+                            <div className="searchBar center">
+                                <input placeholder='Search' ref={search} type="text" />
+                                <span className="btn btn-prim" onClick={() => dispatch(fetchData({ query: search.current.value }))}>Search<i className="uil uil-search"></i></span>
+
+                            </div>
+
+
+
+                        </div>
+
+
+                        <div className="slider">
+                            <Glider className='glider'
+                                dots={'#dots'}
+                                arrows={{
+                                    prev: '#buttonPrev',
+                                    next: '#buttonNext',
+                                }}
+                                draggable
+                                hasDots
+                                hasArrows
+                                rewind
+                                scrollLock
+                                slidesToShow={2}>
+
+                                {
+                                    (data.articles)?.map((item, i) => {
+                                        if (item !== null) {
+                                            return (
+                                                <EachSlide key={i} img={item?.urlToImage} />
+
+                                            )
+                                        }
+                                        return false
+
+                                    })
+                                }
+
+
+
+
+
+                            </Glider>
+                            <div className="slider-controller">
+
+                                <div id='buttonPrev' className="arrow center left-icon">
+                                    <i className="uil uil-angle-left-b"></i>
+                                </div>
+                                <div id="dots">
+
+                                </div>
+                                <div id='buttonNext' className="arrow center left-icon">
+                                    <i className="uil uil-angle-right-b"></i>
+                                </div>
+
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+                        <InfiniteScroll
+                            dataLength={data.articles?.length}
+                            next={fetchMoreData}
+                            hasMore={data.articles?.length < data.totalResults}
+                            loader={<Spinner />}
+                        >
+
+                            <div id='bottom' className="bottom">
+
+                                {
+                                    data.articles?.map((item, i) => {
+                                        if (item !== null) {
+                                            return (
+                                                <div className="center">
+                                                    
+                                                    <HeadLine news={item}
+                                                        key={i} />
+                                                </div>
+                                            )
+                                        }
+                                        return false
+
+                                    })
+                                }
+
+                            </div>
+                        </InfiniteScroll>
                     </div>
                 </div>
-            </div>
-            <div className="container">
-                {
-                    data.articles?.map((item, i) => {
-                        return (
-                            <HeadLine news={item} 
-                            key={i}/>
-                        )
-                    })
-                }
 
-            </div>
+            }
 
-        </div>
+
+        </div >
+
     )
 }
 

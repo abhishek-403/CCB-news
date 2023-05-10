@@ -1,33 +1,191 @@
-*{
+@import url("https://fonts.googleapis.com/css2?family=Acme&family=Carter+One&family=Domine:wght@500&family=Merriweather&family=Playfair+Display:wght@500&family=Poppins:wght@400;500&family=Roboto+Slab:wght@500&display=swap");
+
+* {
   margin: 0;
   padding: 0;
   overflow: auto;
   box-sizing: border-box;
   text-decoration: none;
-
+  list-style: none;
 }
 
-:root{
+:root {
+  /* Heights */
+
+  --nav-ht: 4rem;
 
   /* col */
 
-  --prim-col:hsl(0, 0%, 100%);
+  --prim-col: hsl(0, 0%, 100%);
+
+  --black-col: black;
+  --white-col: white;
+  --body-col: white;
+
+  --nav-col: white;
+
+  --h1-col: black;
+  --h2-col: black;
+  --h4-col: black;
+  --h6-col: black;
+  --p-col: black;
+  --span-col: black;
+  --btn-prim-bg: hsl(250, 69%, 61%);;
+  --btn-prim-bg-hover:  hsl(250, 57%, 53%);
+  --btn-prim-bg-active: hsl(250, 100%, 72%);
+
+  --light-col: hsl(250, 47%, 93%);
+
+  --shadow-col: hsl(0, 0%, 89%);
+
   
-
-
-
   /* Fonts */
+  --h1-font-size: 2.8rem;
+  --h2-font-size: 2.5rem;
+  --h4-font-size: 2rem;
+  --h6-font-size: 1.5rem;
+  --p-font-size: 1.2rem;
+  --small-font-size: 1.1rem;
+  --smaller-font-size:.8rem;
 
-
+  --btn-font-size:1.2rem;
+  --icon-font-size:2rem;
 
   /* Font family */
+  --h1-font: "Roboto Slab", serif;
+  --h2-font: 'Playfair Display', serif;
+  --allh-font: "Merriweather", serif;
+  --p-font: "Domine", sans-serif;
+  --span-font:'Carter One', cursive;
+
+  /* Margins */
+
+  --mb1: 40px;
+  --mb2: 30px;
+  --mb3: 20px;
+
+  --mt1: 30px;
+  --mt2: 20px;
+  --mt3: 10px;
+
+  /* Measurements */
+
+  --headline-ht: 150px;
+  --headline-wd: 45vw;
+}
+
+body.dark-theme{
+  --prim-col: hsl(0, 0%, 100%);
+
+  --black-col: rgb(255, 255, 255);
+  --white-col: rgb(0, 0, 0);
+
+  --body-col: hsl(250, 28%, 12%);
+
+  --nav-col:hsl(250, 28%, 19%);
+
+  --h1-col: black;
+  --h2-col: black;
+  --h4-col: black;
+  --h6-col: black;
+  --p-col: black;
+  --span-col: black;
+  --btn-prim-bg: hsl(250, 69%, 61%);;
+  --btn-prim-bg-hover:  hsl(250, 57%, 53%);
+  --btn-prim-bg-active: hsl(250, 100%, 72%);
+
+  --light-col: hsl(250, 47%, 93%);
+
+}
+body{
+  background-color: var(--body-col);
+}
+h1 {
+  font-size: var(--h1-font-size);
+  color: var(---h1-col);
+  font-family: var(--h1-font);
+}
+
+h2 {
+  font-size: var(--h2-font-size);
+  color: var(---h2-col);
+
+  font-family: var(--h2-font);
+}
+
+h4 {
+  font-size: var(--h4-font-size);
+  color: var(---h4-col);
+}
+h6 {
+  font-size: var(--h6-font-size);
+  color: var(---h6-col);
+}
+
+p {
+  font-size: var(--p-font-size);
+  color: var(---p-col);
+  font-family: var(--p-font);
+}
+span {
+  font-size: var(--span-font-size);
+  color: var(---span-col);
+  font-family: var(--span-font);
+}
+
+
+
+
+/* btns */
+
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  gap: 10px;
+  cursor: pointer;
+
+  padding: 5px 15px 7px 15px;
+
+  border-radius: 4px;
+  font-family: var(--h1-font);
+  font-size: var(--btn-font-size);
+  
+}
+.btn-prim{
+  background-color: var(--btn-prim-bg);
+  color: white;
+}
+.btn-prim:hover{
+  background-color: var(--btn-prim-bg-hover);
+  
+}
+.btn-prim:active{
+  background-color: var(--btn-prim-bg-active);
 
 }
 
 
-.container{
+
+/* elements */
+
+.container {
   max-width: 1200px;
   height: 100%;
   margin: 0px auto;
+  padding: 0px 10px;
+}
 
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+Link,
+a {
+  text-decoration: none;
+  color: var(--black-col);
 }
