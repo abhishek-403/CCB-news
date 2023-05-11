@@ -4,7 +4,7 @@ import Home from './pages/Home/Home';
 import Navbar from './components/navbar/Navbar.js';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchData } from './redux/slices/UtilsSlice';
+import { fetchData, setQwery } from './redux/slices/UtilsSlice';
 
 function App() {
 
@@ -12,6 +12,7 @@ function App() {
   const dispatch = useDispatch()
   useEffect(() => {
     let path = location.pathname.split('/')[1];
+    dispatch(setQwery(undefined))
 
     dispatch(fetchData({
       category: path === '' ? 'general' : path,

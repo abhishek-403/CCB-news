@@ -5,8 +5,11 @@ function EachSlide({img}) {
   return (
     <div className='slide' >
       <div className="content center">
+        
         <img src={img} alt="" />
+        
       </div>
+      
     </div>
 
   )

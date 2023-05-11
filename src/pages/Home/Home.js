@@ -1,4 +1,4 @@
-import React, { useEffect, useRef} from 'react'
+import React, { useState } from 'react'
 import HeadLine from '../../components/EachHeadline/HeadLine'
 import EachSlide from '../../components/EachSlide/EachSlide'
 import './home.scss'
@@ -8,14 +8,16 @@ import Glider from 'react-glider'
 import 'glider-js/glider.min.css';
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchData, fetchMore } from '../../redux/slices/UtilsSlice'
+import { Link} from 'react-router-dom'
 
 
 
 function Home() {
-    const search = useRef(null)
+    const [search, setsearch] = useState("")
 
     const dispatch = useDispatch();
     const data = useSelector(s => s.utilsReducer.data)
+    const qweryState = useSelector(s => s.utilsReducer.qwery)
     const isLoading = useSelector(s => s.utilsReducer.isLoading)
 
 
@@ -23,15 +25,16 @@ function Home() {
     async function fetchMoreData() {
         dispatch(fetchMore({
             cat: data.cat,
-            page: data.page
+            page: data.page,
+            qwery:qweryState===("" || " ")? undefined:qweryState
         }))
 
     }
-    useEffect(() => {
-        console.log(data);
+    function fetchFirstData(){
 
-
-    }, [data])
+        dispatch(fetchData({ qwery: search }));
+    }
+ 
 
 
 
@@ -44,8 +47,8 @@ function Home() {
 
                         <div className="top center">
                             <div className="searchBar center">
-                                <input placeholder='Search' ref={search} type="text" />
-                                <span className="btn btn-prim" onClick={() => dispatch(fetchData({ query: search.current.value }))}>Search<i className="uil uil-search"></i></span>
+                                <input onChange={(e)=>setsearch(e.target.value)} onKeyDown={(e)=>e.key==='Enter'?fetchFirstData():null}  placeholder={ qweryState!==undefined?qweryState:'Search'} type="text" />
+                                <span className="btn btn-prim" onClick={fetchFirstData}>Search<i className="uil uil-search"></i></span>
 
                             </div>
 
@@ -61,7 +64,11 @@ function Home() {
                                     prev: '#buttonPrev',
                                     next: '#buttonNext',
                                 }}
-                                draggable
+                                draggable={{
+                                    cursor:'pointer'
+
+                                }}
+
                                 hasDots
                                 hasArrows
                                 rewind
@@ -69,8 +76,8 @@ function Home() {
                                 slidesToShow={2}>
 
                                 {
-                                    (data.articles)?.map((item, i) => {
-                                        if (item !== null) {
+                                    (data.articles)?.map((item, i = 0) => {
+                                        if (item !== null && i++ <= 5) {
                                             return (
                                                 <EachSlide key={i} img={item?.urlToImage} />
 
@@ -108,7 +115,7 @@ function Home() {
                         </div>
 
                         <InfiniteScroll
-                            dataLength={data.articles?.length}
+                            dataLength={data.articles?.length || 0}
                             next={fetchMoreData}
                             hasMore={data.articles?.length < data.totalResults}
                             loader={<Spinner />}
@@ -120,11 +127,11 @@ function Home() {
                                     data.articles?.map((item, i) => {
                                         if (item !== null) {
                                             return (
-                                                <div className="center">
-                                                    
+                                                <Link target='_blank' to={`${item.url}`}  key={i}  className="center">
+
                                                     <HeadLine news={item}
-                                                        key={i} />
-                                                </div>
+                                                      />
+                                                </Link>
                                             )
                                         }
                                         return false

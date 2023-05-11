@@ -84,17 +84,19 @@ body.dark-theme{
 
   --nav-col:hsl(250, 28%, 19%);
 
-  --h1-col: black;
-  --h2-col: black;
-  --h4-col: black;
-  --h6-col: black;
-  --p-col: black;
-  --span-col: black;
+  --h1-col: rgb(255, 255, 255);
+  --h2-col: rgb(245, 245, 245);
+  --h4-col: rgb(235, 235, 235);
+  --h6-col: rgb(220, 220, 220);
+  --p-col: rgb(255, 255, 255);
+  --span-col: rgb(182, 182, 182);
   --btn-prim-bg: hsl(250, 69%, 61%);;
   --btn-prim-bg-hover:  hsl(250, 57%, 53%);
   --btn-prim-bg-active: hsl(250, 100%, 72%);
 
   --light-col: hsl(250, 47%, 93%);
+  
+  --shadow-col: hsl(252, 17%, 34%);
 
 }
 body{
@@ -124,12 +126,12 @@ h6 {
 
 p {
   font-size: var(--p-font-size);
-  color: var(---p-col);
+  color: var(--p-col);
   font-family: var(--p-font);
 }
 span {
-  font-size: var(--span-font-size);
-  color: var(---span-col);
+  font-size: var(--smaller-font-size);
+  color: var(--span-col);
   font-family: var(--span-font);
 }
 
